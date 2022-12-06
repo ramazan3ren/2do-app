@@ -18,21 +18,97 @@ class _MainPageState extends State<MainPage> {
       floatingActionButton: floatingActionButton(),
       body: Stack(
         children: [
-          Container(
-            height: getDeviceHeight(context) / 8,
-            color: Colors.red,
-            child: Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(left: getDeviceWidth(context) / 20),
-                  child: showNowDate(),
+          Column(
+            children: [
+              appBar(context),
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 13),
+                    child: SizedBox(
+                      // color: Colors.red,
+                      width: getDeviceWidth(context),
+                      height: getDeviceHeight(context) / 4,
+                      child: Center(
+                        child: Container(
+                          height: getDeviceHeight(context) / 4.2,
+                          width: getDeviceWidth(context) / 1.2,
+                          decoration: BoxDecoration(
+                              borderRadius: HomePageValue().detailRadius,
+                              gradient: LinearGradient(
+                                begin: Alignment.topLeft,
+                                // end: Alignment.bottomRight,
+                                colors: [
+                                  ProjectValue().gradientColor1,
+                                  ProjectValue().gradientColor2,
+                                ],
+                              )),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: getDeviceHeight(context) / 2,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: 10,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return const Card(
+                        child: ListTile(),
+                      );
+                    },
+                  ),
                 ),
-              ],
+              ),
+            ],
+          ),
+        ],
+      ),
+      bottomNavigationBar: bottomNavigationBar(currentIndex, context),
+    );
+  }
+
+  SizedBox appBar(BuildContext context) {
+    return SizedBox(
+      height: getDeviceHeight(context) / 8,
+      child: Row(
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: getDeviceWidth(context) / 12),
+                child: showNowDate(),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: getDeviceWidth(context) / 12),
+                child: Text(
+                  '4 Task Today',
+                  style: TextStyle(
+                    color: ProjectValue().headThemeColor,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              )
+            ],
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: getDeviceHeight(context) / 15, left: getDeviceWidth(context) / 2.3),
+            child: CircleAvatar(
+              backgroundColor: ProjectValue().mainThemeColor,
+              child: Icon(
+                Icons.account_circle_outlined,
+                color: ProjectValue().bottomIcoColor,
+              ),
             ),
           )
         ],
       ),
-      bottomNavigationBar: bottomNavigationBar(currentIndex, context),
     );
   }
 
@@ -63,15 +139,19 @@ class _MainPageState extends State<MainPage> {
           selectedItemColor: ProjectValue().bottomIcoColor,
           unselectedItemColor: ProjectValue().bottomIcoColor,
           iconSize: getDeviceHeight(context) / 27,
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.home_rounded), label: 'Home'),
-            BottomNavigationBarItem(icon: Icon(Icons.format_list_bulleted_outlined), label: 'Tasks'),
-            BottomNavigationBarItem(icon: Icon(Icons.calendar_month_outlined), label: 'Calendar'),
-            BottomNavigationBarItem(icon: Icon(Icons.account_circle_outlined), label: 'Profile'),
-          ],
+          items: bottomNavItem,
         ),
       ),
     );
+  }
+
+  List<BottomNavigationBarItem> get bottomNavItem {
+    return const [
+      BottomNavigationBarItem(icon: Icon(Icons.home_rounded), label: 'Home'),
+      BottomNavigationBarItem(icon: Icon(Icons.format_list_bulleted_outlined), label: 'Tasks'),
+      BottomNavigationBarItem(icon: Icon(Icons.calendar_month_outlined), label: 'Calendar'),
+      BottomNavigationBarItem(icon: Icon(Icons.account_circle_outlined), label: 'Profile'),
+    ];
   }
 
   FloatingActionButton floatingActionButton() {
@@ -118,7 +198,10 @@ class _MainPageState extends State<MainPage> {
       return Text(
         '0${now.day} $monthStr ${now.year}',
         style: TextStyle(
-            color: ProjectValue().bottomIcoColor, fontFamily: 'Poppins Bold', fontSize: getDeviceWidth(context) / 22),
+          color: ProjectValue().headThemeColor,
+          fontFamily: 'Poppins Bold',
+          fontSize: getDeviceWidth(context) / 22,
+        ),
       );
     }
     return Text(

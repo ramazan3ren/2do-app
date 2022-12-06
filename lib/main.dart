@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
       title: '2Do App',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        primarySwatch: Colors.pink,
         fontFamily: 'Poppins',
         appBarTheme:
             AppBarTheme(systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: ProjectValue().mainThemeColor)),

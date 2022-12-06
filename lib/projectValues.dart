@@ -8,14 +8,17 @@ class ProjectValue {
   final Color descThemeColor = const Color.fromRGBO(111, 0, 178, 0.7);
   final Color bgThemeColor = const Color.fromRGBO(245, 228, 252, 1);
   final Color bottomIcoColor = const Color.fromRGBO(255, 255, 255, 1);
+  final Color gradientColor1 = const Color.fromRGBO(214, 225, 255, 1);
+  final Color gradientColor2 = const Color.fromRGBO(214, 225, 255, 0);
   final double elevation = 0;
 }
 
 class HomePageValue {
   BorderRadiusGeometry radius = const BorderRadius.only(topLeft: Radius.circular(50), topRight: Radius.circular(50));
   BorderRadiusGeometry bottomNavRadius =
-      const BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30));
+      const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20));
   BorderRadiusGeometry buttonRadius = const BorderRadius.all(Radius.circular(50));
+  BorderRadiusGeometry detailRadius = const BorderRadius.all(Radius.circular(20));
 
   Text homePageText = Text('Organize Your\n Daily Task',
       textAlign: TextAlign.center,
