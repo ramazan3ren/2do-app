@@ -10,6 +10,7 @@ class ProjectValue {
   final Color bottomIcoColor = const Color.fromRGBO(255, 255, 255, 1);
   final Color gradientColor1 = const Color.fromRGBO(214, 225, 255, 1);
   final Color gradientColor2 = const Color.fromRGBO(214, 225, 255, 0);
+  final Color cardColor = const Color.fromRGBO(246, 244, 252, 1); //rgba(246, 244, 252, 1)
   final double elevation = 0;
 }
 

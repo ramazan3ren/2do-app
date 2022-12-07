@@ -24,7 +24,7 @@ class _MainPageState extends State<MainPage> {
               Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 13),
+                    padding: EdgeInsets.only(top: getDeviceHeight(context) / 40),
                     child: SizedBox(
                       // color: Colors.red,
                       width: getDeviceWidth(context),
@@ -49,19 +49,54 @@ class _MainPageState extends State<MainPage> {
                   ),
                 ],
               ),
-              SizedBox(
-                height: getDeviceHeight(context) / 2,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: 10,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return const Card(
-                        child: ListTile(),
-                      );
-                    },
+              Container(
+                height: getDeviceHeight(context) / 100,
+              ),
+              Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: getDeviceWidth(context) / 15),
+                    child: SizedBox(
+                      child: Text(
+                        'Today’s Task',
+                        style: TextStyle(
+                          color: ProjectValue().headThemeColor,
+                          fontFamily: 'Poppins Bold',
+                          fontSize: getDeviceWidth(context) / 22,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Container(
+                height: getDeviceHeight(context) / 140,
+              ),
+              ConstrainedBox(
+                constraints: BoxConstraints.loose(Size.infinite),
+                child: SizedBox(
+                  height: getDeviceHeight(context) / 2.2,
+                  child: SingleChildScrollView(
+                    padding: EdgeInsets.only(
+                        top: 0, left: getDeviceWidth(context) / 15, right: getDeviceWidth(context) / 15),
+                    scrollDirection: Axis.vertical,
+                    child: ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: 10,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return Card(
+                          elevation: 2,
+                          margin: EdgeInsets.only(top: getDeviceHeight(context) / 50),
+                          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
+                          color: ProjectValue().cardColor,
+                          child: const ListTile(
+                            title: Text('IconDesign'),
+                            subtitle: Text('08:00 AM - 10:00 AM'),
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ),
               ),
@@ -206,7 +241,11 @@ class _MainPageState extends State<MainPage> {
     }
     return Text(
       '${now.day} $monthStr ${now.year}',
-      style: TextStyle(color: ProjectValue().bottomIcoColor),
+      style: TextStyle(
+        color: ProjectValue().headThemeColor,
+        fontFamily: 'Poppins Bold',
+        fontSize: getDeviceWidth(context) / 22,
+      ),
     );
   }
 }
