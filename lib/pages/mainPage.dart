@@ -21,34 +21,7 @@ class _MainPageState extends State<MainPage> {
           Column(
             children: [
               appBar(context),
-              Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(top: getDeviceHeight(context) / 40),
-                    child: SizedBox(
-                      // color: Colors.red,
-                      width: getDeviceWidth(context),
-                      height: getDeviceHeight(context) / 4,
-                      child: Center(
-                        child: Container(
-                          height: getDeviceHeight(context) / 4.2,
-                          width: getDeviceWidth(context) / 1.2,
-                          decoration: BoxDecoration(
-                              borderRadius: HomePageValue().detailRadius,
-                              gradient: LinearGradient(
-                                begin: Alignment.topLeft,
-                                // end: Alignment.bottomRight,
-                                colors: [
-                                  ProjectValue().gradientColor1,
-                                  ProjectValue().gradientColor2,
-                                ],
-                              )),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              appBarCard(context),
               Container(
                 height: getDeviceHeight(context) / 100,
               ),
@@ -72,30 +45,44 @@ class _MainPageState extends State<MainPage> {
               Container(
                 height: getDeviceHeight(context) / 140,
               ),
-              ConstrainedBox(
-                constraints: BoxConstraints.loose(Size.infinite),
-                child: SizedBox(
-                  height: getDeviceHeight(context) / 2.2,
-                  child: SingleChildScrollView(
-                    padding: EdgeInsets.only(
-                        top: 0, left: getDeviceWidth(context) / 15, right: getDeviceWidth(context) / 15),
-                    scrollDirection: Axis.vertical,
-                    child: ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: 10,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return Card(
-                          elevation: 2,
-                          margin: EdgeInsets.only(top: getDeviceHeight(context) / 50),
-                          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
-                          color: ProjectValue().cardColor,
-                          child: const ListTile(
-                            title: Text('IconDesign'),
-                            subtitle: Text('08:00 AM - 10:00 AM'),
-                          ),
-                        );
-                      },
+              Expanded(
+                // flex: 4,
+                child: ConstrainedBox(
+                  constraints: BoxConstraints.loose(Size.infinite),
+                  child: SizedBox(
+                    height: getDeviceHeight(context) / 2.2,
+                    child: SingleChildScrollView(
+                      padding: EdgeInsets.only(
+                        top: 0,
+                        left: getDeviceWidth(context) / 15,
+                        right: getDeviceWidth(context) / 15,
+                      ),
+                      scrollDirection: Axis.vertical,
+                      child: ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: 10,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return Card(
+                            elevation: 2,
+                            margin: EdgeInsets.only(bottom: getDeviceHeight(context) / 35),
+                            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
+                            color: ProjectValue().cardColor,
+                            child: ListTile(
+                              title: Text(
+                                'IconDesign',
+                                style: TextStyle(color: ProjectValue().headThemeColor, fontWeight: FontWeight.bold),
+                              ),
+                              subtitle: Text(
+                                '08:00 AM - 10:00 AM',
+                                style: TextStyle(
+                                    fontSize: getDeviceHeight(context) / 60, color: ProjectValue().headThemeColor),
+                              ),
+                              trailing: IconButton(onPressed: () {}, icon: const Icon(Icons.arrow_forward_ios_rounded)),
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ),
@@ -108,9 +95,70 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
+  Column appBarCard(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.only(top: getDeviceHeight(context) / 40),
+          child: SizedBox(
+            // color: Colors.red,
+            width: getDeviceWidth(context),
+            height: getDeviceHeight(context) / 4,
+            child: Center(
+              child: Container(
+                height: getDeviceHeight(context) / 4.2,
+                width: getDeviceWidth(context) / 1.2,
+                decoration: BoxDecoration(
+                    borderRadius: HomePageValue().detailRadius,
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      // end: Alignment.bottomRight,
+                      colors: [
+                        ProjectValue().gradientColor1,
+                        ProjectValue().gradientColor2,
+                      ],
+                    )),
+                child: Row(children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding:
+                            EdgeInsets.only(left: getDeviceWidth(context) / 20, bottom: getDeviceHeight(context) / 50),
+                        child: Text(
+                          'Your daily plan\nalmost done.\nFighting!',
+                          style: TextStyle(
+                              color: ProjectValue().headThemeColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: Theme.of(context).textTheme.headline6!.fontSize),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: getDeviceWidth(context) / 100,
+                        ),
+                        child: Text(
+                          '4 of 6 completed',
+                          style: TextStyle(
+                            color: ProjectValue().headThemeColor,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      )
+                    ],
+                  )
+                ]),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   SizedBox appBar(BuildContext context) {
     return SizedBox(
-      height: getDeviceHeight(context) / 8,
+      height: getDeviceHeight(context) / 7,
       child: Row(
         children: [
           Column(
@@ -136,10 +184,7 @@ class _MainPageState extends State<MainPage> {
             padding: EdgeInsets.only(top: getDeviceHeight(context) / 15, left: getDeviceWidth(context) / 2.3),
             child: CircleAvatar(
               backgroundColor: ProjectValue().mainThemeColor,
-              child: Icon(
-                Icons.account_circle_outlined,
-                color: ProjectValue().bottomIcoColor,
-              ),
+              child: const FlutterLogo(),
             ),
           )
         ],

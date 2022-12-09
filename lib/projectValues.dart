@@ -17,7 +17,7 @@ class ProjectValue {
 class HomePageValue {
   BorderRadiusGeometry radius = const BorderRadius.only(topLeft: Radius.circular(50), topRight: Radius.circular(50));
   BorderRadiusGeometry bottomNavRadius =
-      const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20));
+      const BorderRadius.only(topLeft: Radius.circular(0), topRight: Radius.circular(0));
   BorderRadiusGeometry buttonRadius = const BorderRadius.all(Radius.circular(50));
   BorderRadiusGeometry detailRadius = const BorderRadius.all(Radius.circular(20));
 
