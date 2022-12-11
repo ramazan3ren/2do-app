@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:twodo_app/projectValues.dart';
 
 class MainPage extends StatefulWidget {
@@ -14,8 +15,11 @@ class _MainPageState extends State<MainPage> {
     getDeviceWidth(context);
     getDeviceHeight(context);
     int currentIndex = 0;
+    var box = Hive.box('database');
+
     return Scaffold(
       floatingActionButton: floatingActionButton(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: Stack(
         children: [
           Column(
@@ -25,73 +29,61 @@ class _MainPageState extends State<MainPage> {
               Container(
                 height: getDeviceHeight(context) / 100,
               ),
-              Row(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(left: getDeviceWidth(context) / 15),
-                    child: SizedBox(
-                      child: Text(
-                        'Today’s Task',
-                        style: TextStyle(
-                          color: ProjectValue().headThemeColor,
-                          fontFamily: 'Poppins Bold',
-                          fontSize: getDeviceWidth(context) / 22,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              const toDayTask(),
               Container(
                 height: getDeviceHeight(context) / 140,
               ),
-              Expanded(
-                // flex: 4,
-                child: ConstrainedBox(
-                  constraints: BoxConstraints.loose(Size.infinite),
-                  child: SizedBox(
-                    height: getDeviceHeight(context) / 2.2,
-                    child: SingleChildScrollView(
-                      padding: EdgeInsets.only(
-                        top: 0,
-                        left: getDeviceWidth(context) / 15,
-                        right: getDeviceWidth(context) / 15,
-                      ),
-                      scrollDirection: Axis.vertical,
-                      child: ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: 10,
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          return Card(
-                            elevation: 2,
-                            margin: EdgeInsets.only(bottom: getDeviceHeight(context) / 35),
-                            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
-                            color: ProjectValue().cardColor,
-                            child: ListTile(
-                              title: Text(
-                                'IconDesign',
-                                style: TextStyle(color: ProjectValue().headThemeColor, fontWeight: FontWeight.bold),
-                              ),
-                              subtitle: Text(
-                                '08:00 AM - 10:00 AM',
-                                style: TextStyle(
-                                    fontSize: getDeviceHeight(context) / 60, color: ProjectValue().headThemeColor),
-                              ),
-                              trailing: IconButton(onPressed: () {}, icon: const Icon(Icons.arrow_forward_ios_rounded)),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              listView(context),
             ],
           ),
         ],
       ),
       bottomNavigationBar: bottomNavigationBar(currentIndex, context),
+    );
+  }
+
+  Expanded listView(BuildContext context) {
+    return Expanded(
+      child: ConstrainedBox(
+        constraints: BoxConstraints.loose(Size.infinite),
+        child: SizedBox(
+          height: getDeviceHeight(context) / 2.2,
+          child: SingleChildScrollView(
+            padding: EdgeInsets.only(
+              top: 0,
+              left: getDeviceWidth(context) / 15,
+              right: getDeviceWidth(context) / 15,
+            ),
+            scrollDirection: Axis.vertical,
+            child: ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: 10,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return Card(
+                  elevation: 2,
+                  margin: EdgeInsets.only(bottom: getDeviceHeight(context) / 35),
+                  shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
+                  color: ProjectValue().cardColor,
+                  child: ListTile(
+                    style: ListTileStyle.list,
+                    onTap: () {},
+                    title: Text(
+                      'IconDesign',
+                      style: TextStyle(color: ProjectValue().headThemeColor, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text(
+                      '08:00 AM - 10:00 AM',
+                      style: TextStyle(fontSize: getDeviceHeight(context) / 60, color: ProjectValue().headThemeColor),
+                    ),
+                    trailing: const Icon(Icons.arrow_forward_ios_rounded),
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
+      ),
     );
   }
 
@@ -183,8 +175,10 @@ class _MainPageState extends State<MainPage> {
           Padding(
             padding: EdgeInsets.only(top: getDeviceHeight(context) / 15, left: getDeviceWidth(context) / 2.3),
             child: CircleAvatar(
+              backgroundImage: const NetworkImage(
+                'https://xsgames.co/randomusers/avatar.php?g=male',
+              ),
               backgroundColor: ProjectValue().mainThemeColor,
-              child: const FlutterLogo(),
             ),
           )
         ],
@@ -198,7 +192,7 @@ class _MainPageState extends State<MainPage> {
       child: BottomAppBar(
         elevation: ProjectValue().elevation,
         shape: const CircularNotchedRectangle(),
-        notchMargin: 4,
+        notchMargin: 8,
         clipBehavior: Clip.antiAlias,
         child: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
@@ -207,11 +201,7 @@ class _MainPageState extends State<MainPage> {
           showSelectedLabels: false,
           onTap: (value) {
             setState(() {
-              var currentIndex = value;
-              if (currentIndex == 0) {
-              } else if (currentIndex == 1) {
-              } else if (currentIndex == 2) {
-              } else if (currentIndex == 3) {}
+              currentIndex = value;
             });
           },
           currentIndex: currentIndex,
@@ -229,19 +219,16 @@ class _MainPageState extends State<MainPage> {
     return const [
       BottomNavigationBarItem(icon: Icon(Icons.home_rounded), label: 'Home'),
       BottomNavigationBarItem(icon: Icon(Icons.format_list_bulleted_outlined), label: 'Tasks'),
-      BottomNavigationBarItem(icon: Icon(Icons.calendar_month_outlined), label: 'Calendar'),
-      BottomNavigationBarItem(icon: Icon(Icons.account_circle_outlined), label: 'Profile'),
     ];
   }
 
   FloatingActionButton floatingActionButton() {
-    return FloatingActionButton.extended(
+    return FloatingActionButton(
       backgroundColor: ProjectValue().mainThemeColor,
       elevation: 0,
       tooltip: 'New Task',
       onPressed: () {},
-      label: const Text('New Task'),
-      icon: const Icon(Icons.add),
+      child: const Icon(Icons.add),
     );
   }
 
@@ -291,6 +278,41 @@ class _MainPageState extends State<MainPage> {
         fontFamily: 'Poppins Bold',
         fontSize: getDeviceWidth(context) / 22,
       ),
+    );
+  }
+
+// hive methods
+
+// add method
+
+  void addTask(Box data) {
+    data.add(data);
+  }
+}
+
+class toDayTask extends StatelessWidget {
+  const toDayTask({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Padding(
+          padding: EdgeInsets.only(left: getDeviceWidth(context) / 15),
+          child: SizedBox(
+            child: Text(
+              'Today’s Task',
+              style: TextStyle(
+                color: ProjectValue().headThemeColor,
+                fontFamily: 'Poppins Bold',
+                fontSize: getDeviceWidth(context) / 22,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

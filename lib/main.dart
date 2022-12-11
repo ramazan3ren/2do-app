@@ -3,8 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:twodo_app/projectValues.dart';
 import 'pages/homePage.dart';
 import 'pages/mainPage.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-void main() => runApp(const MyApp());
+void main() async {
+  await Hive.initFlutter();
+  var box = await Hive.openBox('database');
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
